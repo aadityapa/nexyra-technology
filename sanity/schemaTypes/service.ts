@@ -7,7 +7,7 @@ export default defineType({
   fields: [
     {
       name: 'title',
-      title: 'Service Title',
+      title: 'Title',
       type: 'string',
       validation: Rule => Rule.required(),
     },
@@ -17,9 +17,17 @@ export default defineType({
       type: 'text',
     },
     {
-      name: 'order',
-      title: 'Order',
+      name: 'depth',
+      title: 'Parallax Depth',
       type: 'number',
+      description: 'Controls how much this card floats on scroll (10–80)',
+      initialValue: 40,
+    },
+    {
+      name: 'video',
+      title: 'Background Video',
+      type: 'file',
+      options: { accept: 'video/mp4' },
     },
   ],
 })

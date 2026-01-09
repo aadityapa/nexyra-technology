@@ -313,29 +313,26 @@ section {
 }
 
 /* ===============================
-   FEATURES / SERVICES
+   SERVICES GRID (SHARED)
 ================================ */
-.features,
-.section-services {
-  position: relative;
-  overflow: visible;
-  height: auto;
-  min-height: unset;
-}
 .services-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 32px;
+  gap: 36px;
   align-items: stretch;
+  perspective: 1400px;
 }
 
+/* ===============================
+   LEGACY SERVICE CARDS
+================================ */
 .service-glass {
   background: rgba(255,255,255,0.05);
   backdrop-filter: blur(16px);
   border-radius: 18px;
   padding: 32px;
-  transition: all 0.4s ease;
   border: 1px solid rgba(255,255,255,0.08);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
 .service-glass:hover {
@@ -343,25 +340,142 @@ section {
   box-shadow: 0 30px 80px rgba(139,92,246,0.25);
 }
 
-.service-glass h3 {
-  margin-bottom: 12px;
+/* ===============================
+   SERVICE CARDS – 3D
+================================ */
+.service-card-3d {
+  position: relative;
+  border-radius: 22px;
+  background: linear-gradient(
+    145deg,
+    rgba(255,255,255,0.08),
+    rgba(255,255,255,0.02)
+  );
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255,255,255,0.1);
+  transform-style: preserve-3d;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: pointer;
 }
 
-.feature-card,
-.service-card,
-.card {
-  background: var(--panel);
-  padding: 40px;
-  border-radius: 20px;
-  backdrop-filter: blur(12px);
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
+.service-inner {
+  padding: 36px;
+  transform: translateZ(40px);
 }
 
-.feature-card:hover,
-.service-card:hover,
-.card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+/* ===============================
+   ELITE SERVICE CARDS
+================================ */
+.service-card-elite {
+  position: relative;
+  border-radius: 22px;
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(18px);
+  transform-style: preserve-3d;
+  overflow: hidden;
+  border: 1px solid transparent;
+  transition: transform 0.25s ease;
+  cursor: pointer;
+}
+
+/* Gradient border */
+.service-card-elite::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: linear-gradient(
+    120deg,
+    #8b5cf6,
+    #22d3ee,
+    #6366f1,
+    #8b5cf6
+  );
+  background-size: 300% 300%;
+  animation: gradientMove 6s linear infinite;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  opacity: 0.6;
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+/* Glass sweep */
+.service-card-elite::after {
+  content: '';
+  position: absolute;
+  top: -120%;
+  left: -60%;
+  width: 60%;
+  height: 300%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,0.25),
+    transparent
+  );
+  transform: rotate(20deg);
+  opacity: 0;
+}
+
+.service-card-elite:hover::after {
+  animation: sweep 1.6s ease;
+  opacity: 1;
+}
+
+@keyframes sweep {
+  to { transform: translateX(220%) rotate(20deg); }
+}
+
+/* Video texture */
+.card-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.25;
+  z-index: 0;
+}
+
+/* Content */
+.card-content {
+  position: relative;
+  z-index: 1;
+  padding: 36px;
+  transform: translateZ(40px);
+}
+
+/* ===============================
+   MOBILE SAFETY
+================================ */
+@media (max-width: 768px) {
+  .services-grid {
+    perspective: none;
+  }
+
+  .service-card-3d,
+  .service-card-elite {
+    transform: none !important;
+  }
+
+  .card-video {
+    display: none;
+  }
+
+  .custom-cursor {
+    display: none;
+  }
+
+  section {
+    padding: 96px 24px;
+  }
 }
 
 /* ===============================
