@@ -9,8 +9,11 @@ type Service = {
   title: string
   description?: string
   depth?: number
-  video?: { asset?: { url: string } }
+  video?: {
+    url: string
+  }
 }
+
 
 export default function Services() {
   const [services, setServices] = useState<Service[]>([])
@@ -96,12 +99,15 @@ export default function Services() {
       <div className="container services-grid">
         {services.map((s, i) => (
           <div
-            key={s._id}
-            ref={(el) => el && (cardsRef.current[i] = el)}
-            className="service-card-elite"
-            onMouseMove={(e) => onMove(e, cardsRef.current[i])}
-            onMouseLeave={() => reset(cardsRef.current[i])}
-          >
+  key={s._id}
+  ref={(el) => {
+    if (el) cardsRef.current[i] = el
+  }}
+  className="service-card-elite"
+  onMouseMove={(e) => onMove(e, cardsRef.current[i])}
+  onMouseLeave={() => reset(cardsRef.current[i])}
+>
+
             {s.video?.url && (
               <video
                 className="card-video"
